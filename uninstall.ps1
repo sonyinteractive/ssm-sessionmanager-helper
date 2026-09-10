@@ -1,0 +1,1 @@
+(get-item "$HOME\ssmhelper.settings.yaml").delete()

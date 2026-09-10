@@ -1,0 +1,104 @@
+# The location of your aws credentials file
+aws-credentials-file: '<aws_credentials_path>'
+log-file-path: '<log_path>'
+
+# Optionally, provide a list of partial (or full) profile names to show in the profile selector screen
+#   To show all profiles, comment out this block
+profile-regex-matches:
+  - '.*-admin$'
+  
+
+# SSM Documents to be used when calling aws ssm start-session
+ssm-documents: 
+  terminal: ''
+  port-forwarding: 'AWS-StartPortForwardingSession'
+
+# The text that will be used in the "reason" field of aws ssm-start-session
+ssm-reason-text: 'Session started by ssmhelper'
+
+# The region that the tool will start in 
+default-region: 'us-west-2'
+
+# The regions that the tool will list in the UI
+supported-regions: 
+  # - 'us-east-2' 
+  - 'us-east-1'
+  # - 'us-west-1' 
+  - 'us-west-2'
+  - 'eu-west-1' 
+  - 'eu-west-2' 
+  # - 'eu-south-1' 
+  # - 'eu-west-3' 
+  # - 'eu-south-2' 
+  # - 'eu-north-1' 
+  # - 'eu-central-1' 
+  # - 'eu-central-2'
+  # - 'ap-east-1' 
+  # - 'ap-south-1' 
+  # - 'ap-south-2' 
+  # - 'ap-southeast-1' 
+  # - 'ap-northeast-2' 
+  # - 'ap-southeast-3' 
+  # - 'ap-southeast-4' 
+  - 'ap-northeast-1'
+  # - 'ap-southeast-2' 
+  # - 'ap-northeast-3'
+  # - 'ca-central-1' 
+  # - 'ca-west-1'
+  # - 'af-south-1'
+  # - 'il-central-1'
+  # - 'me-south-1' 
+  # - 'me-central-1'
+  # - 'sa-east-1'
+
+# Uncomment 'instance-filter' to provide an optional filter to restrict the instances returned in the instance selector screen
+# https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/ec2/client/describe_instances.html
+# For example, in the link above, the filter looks like:
+#
+# response = client.describe_instances(
+#    Filters=[
+#        {
+#            'Name': 'string',
+#            'Values': [
+#                'string',
+#            ]
+#        },
+#    ],
+#    ...
+# )
+#
+# Specify it in yaml like this in the filters section:
+# The filters are a list of lists. The inner list is an "AND" of the filters; the outer lists are "OR'ed"
+# instance-filters:
+#   - filter-name: <a human readable identifier for your filter'
+#     filter: [[{'Name': 'string', 'Values': ['string']}]]
+instance-filter-include-all-instance-option: True
+instance-filters:
+  
+  - filter-name: 'operations + infrastructure - k8s'
+    filter: [
+      [{'Name':'tag:Team', 'Values': ['infrastructure', 'operations']}]
+    ]
+    exclude: ["k8s"]
+    default: True
+
+  - filter-name: 'infrastructure'
+    filter: [
+      [{'Name':'tag:Team', 'Values': ['infrastructure']}]
+    ]
+    exclude: ["k8s"]
+
+  - filter-name: 'operations'
+    filter: [
+      [{'Name':'tag:Team', 'Values': ['operations']}]
+    ]
+    exclude: ["k8s"]
+
+  - filter-name: 'platform'
+    filter: [
+      [
+        {'Name':'tag:Team', 'Values': ['infrastructure', 'operations']}, 
+        {'Name':'tag:Application', 'Values': ['platform']}
+      ]
+    ]
+    

@@ -1,0 +1,7 @@
+argparse==1.4.0
+boto3==1.42
+prompt_toolkit==3.0.50
+pytz==2026.1
+rel==0.4.9.24
+websocket-client==1.9.0
+urllib3==2.6.3
