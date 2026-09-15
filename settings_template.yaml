@@ -3,9 +3,9 @@ aws-credentials-file: '<aws_credentials_path>'
 log-file-path: '<log_path>'
 
 # Optionally, provide a list of partial (or full) profile names to show in the profile selector screen
-#   To show all profiles, comment out this block
-profile-regex-matches:
-  - '.*-admin$'
+#  This entry serves as a list of profile name regex values to show in the profile select screen
+# profile-regex-matches:
+#   - '.*-admin$'
   
 
 # SSM Documents to be used when calling aws ssm start-session
@@ -75,30 +75,36 @@ supported-regions:
 instance-filter-include-all-instance-option: True
 instance-filters:
   
-  - filter-name: 'operations + infrastructure - k8s'
-    filter: [
-      [{'Name':'tag:Team', 'Values': ['infrastructure', 'operations']}]
-    ]
-    exclude: ["k8s"]
+  - filter-name: '*** All Instances ***'
+    filter: [[]]
     default: True
 
-  - filter-name: 'infrastructure'
-    filter: [
-      [{'Name':'tag:Team', 'Values': ['infrastructure']}]
-    ]
-    exclude: ["k8s"]
+  # Below are examples of what can be done with filters for instances
+  
+  # - filter-name: 'operations + infrastructure - k8s'
+  #   filter: [
+  #     [{'Name':'tag:Team', 'Values': ['infrastructure', 'operations']}]
+  #   ]
+  #   exclude: ["k8s"]
+  #   default: True
 
-  - filter-name: 'operations'
-    filter: [
-      [{'Name':'tag:Team', 'Values': ['operations']}]
-    ]
-    exclude: ["k8s"]
+  # - filter-name: 'infrastructure'
+  #   filter: [
+  #     [{'Name':'tag:Team', 'Values': ['infrastructure']}]
+  #   ]
+  #   exclude: ["k8s"]
 
-  - filter-name: 'platform'
-    filter: [
-      [
-        {'Name':'tag:Team', 'Values': ['infrastructure', 'operations']}, 
-        {'Name':'tag:Application', 'Values': ['platform']}
-      ]
-    ]
+  # - filter-name: 'operations'
+  #   filter: [
+  #     [{'Name':'tag:Team', 'Values': ['operations']}]
+  #   ]
+  #   exclude: ["k8s"]
+
+  # - filter-name: 'platform'
+  #   filter: [
+  #     [
+  #       {'Name':'tag:Team', 'Values': ['infrastructure', 'operations']}, 
+  #       {'Name':'tag:Application', 'Values': ['platform']}
+  #     ]
+  #   ]
     
